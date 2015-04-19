@@ -3,10 +3,12 @@
 
 // but you don't so you're going to write it from scratch:
 
-var stringifyJSON = function(obj) {
+var stepOne = function(obj) {
   // your code goes here
   if (typeof obj === 'undefined' || typeof obj === 'function') {
-    return '{}';
+    return '';
+  } else if (obj === null) {
+    return obj;
   } else if (typeof obj === 'boolean' || typeof obj === 'number') {
     return obj;
   } else if (typeof obj === 'string') {
@@ -14,17 +16,33 @@ var stringifyJSON = function(obj) {
   } else if (typeof obj === 'object') {
     if (Array.isArray(obj)) {
       // if object is array
-      var results = [];
+      var newArr = [];
       for (var i=0; i<obj.length; i++) {
-        results[i] = stringifyJSON(obj[i]);
+        newArr[i] = stepOne(obj[i]);
       }
-      return '[' + results.join(', ') + ']';
+      return '[' + newArr.join() + ']';
     } else {
       // if object is non-array object
-      var newObj = {};
+      var stringObj = '{';
+      var counter = 0;
       for (var key in obj) {
-        newObj[key] = stringifyJSON(obj[key]);
+        if(stepOne(obj[key]) === "") {
+          return "{}";
+        } else {
+          if(counter === Object.keys(obj).length-1) {
+            stringObj += '"' + key + '":' + stepOne(obj[key]);
+          } else {
+            stringObj += '"' + key + '":' + stepOne(obj[key]) + ",";
+            counter++;
+          }
+        }
       }
+      stringObj += "}";
+      return stringObj;
     }
   }
+};
+
+var stringifyJSON = function(obj) {
+  return '' + stepOne(obj) + '';
 };
