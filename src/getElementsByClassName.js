@@ -4,13 +4,18 @@
 // };
 
 // But instead we're going to implement it from scratch:
+var getElementsByClassName;
 
 window.onload = function() {
 
-  var node = document.body;
-  var results = [];
 
-  var getElementsByClassName = function(className){
+  getElementsByClassName = function(className) {
+    var node = document.body;
+    var results = [];
+    return getElementsByClassNameHelper(className,results, node)
+  };
+
+  var getElementsByClassNameHelper = function(className, results, node){
     // your code here
     if (node.classList.contains(className)) {
       results.push(node);
@@ -18,11 +23,11 @@ window.onload = function() {
     if (node.hasChildNodes()) {
       for (var i=0; i<node.children.length; i++) {
         node = node.children[i];
-        getElementsByClassName(className);
+        getElementsByClassNameHelper(className, results, node);
       }
     }
     return results;
   };
-  console.log(getElementsByClassName("mocha"));
-  console.log(document.getElementsByClassName("mocha"));
+  console.log('My function returns ', getElementsByClassName("mocha"));
+  console.log('The built-in function returns ', document.getElementsByClassName("mocha"));
 };
