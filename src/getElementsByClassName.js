@@ -4,30 +4,21 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName;
 
-window.onload = function() {
+var getElementsByClassName = function (className) {
+  var results = [];
+  var node = document.body;
+  return getElementsByClassNameHelper(className, results, node);
+};
 
-
-  getElementsByClassName = function(className) {
-    var node = document.body;
-    var results = {};
-    return getElementsByClassNameHelper(className,results, node);
-  };
-
-  var getElementsByClassNameHelper = function(className, results, node){
-    // your code here
-    if (node.classList.contains(className)) {
-      results[Object.keys(results).length] = node;
+var getElementsByClassNameHelper = function (className, results, node) {
+  if (node.classList.contains(className)) {
+    results.push(node);
+  }
+  for (var key in node.childNodes) {
+    if (node.childNodes[key].nodeType === 1) {
+      return getElementsByClassNameHelper(className, results, node.childNodes[key]);
     }
-    if (node.hasChildNodes()) {
-      for (var i=0; i<node.children.length; i++) {
-        node = node.children[i];
-        getElementsByClassNameHelper(className, results, node);
-      }
-    }
-    return results;
-  };
-  console.log('My function returns ', getElementsByClassName("mocha"));
-  console.log('The built-in function returns ', document.getElementsByClassName("mocha"));
+  }
+  return results;
 };
