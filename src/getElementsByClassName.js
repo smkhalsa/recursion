@@ -5,6 +5,8 @@
 
 // But instead we're going to implement it from scratch:
 
+
+
 var getElementsByClassName = function (className) {
   var results = [];
   var node = document.body;
@@ -17,7 +19,7 @@ var getElementsByClassNameHelper = function (className, results, node) {
   }
   for (var key in node.childNodes) {
     if (node.childNodes[key].nodeType === 1) {
-      return getElementsByClassNameHelper(className, results, node.childNodes[key]);
+      getElementsByClassNameHelper(className, results, node.childNodes[key]);
     }
   }
   return results;
