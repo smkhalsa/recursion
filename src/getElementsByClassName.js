@@ -11,14 +11,14 @@ window.onload = function() {
 
   getElementsByClassName = function(className) {
     var node = document.body;
-    var results = [];
-    return getElementsByClassNameHelper(className,results, node)
+    var results = {};
+    return getElementsByClassNameHelper(className,results, node);
   };
 
   var getElementsByClassNameHelper = function(className, results, node){
     // your code here
     if (node.classList.contains(className)) {
-      results.push(node);
+      results[Object.keys(results).length] = node;
     }
     if (node.hasChildNodes()) {
       for (var i=0; i<node.children.length; i++) {
